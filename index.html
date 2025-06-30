@@ -2,132 +2,145 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Happy Birthday Hassaneh 🎉</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Happy Birthday, Hassaneh 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html,body { height:100%; width:100%; overflow:hidden; }
+    body { font-family:'Poppins', sans-serif; background:#ffe6f0; display:flex; align-items:center; justify-content:center; }
+    #start { text-align:center; }
+    #btnStart {
+      font-family:'Dancing Script', cursive;
+      font-size:2rem; padding:12px 24px;
+      background:#e91e63; color:#fff; border:none;
+      border-radius:30px; cursor:pointer;
+      box-shadow:0 4px 10px rgba(0,0,0,0.2);
+      transition:transform 0.2s;
     }
-    body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background: linear-gradient(to bottom, #ffe6f0, #fceeff);
-      font-family: 'Segoe UI', sans-serif;
+    #btnStart:active { transform:scale(0.95); }
+    #container { display:none; position:relative; width:100%; height:100%; }
+    canvas { display:block; width:100%; height:100%; }
+    #message {
+      position:absolute; top:10%; width:90%;
+      left:50%; transform:translateX(-50%);
+      color:#e91e63; font-size:1.2rem; text-align:center;
+      font-family:'Dancing Script', cursive;
+      white-space:pre-line;
     }
-    .heart {
-      width: 20px;
-      height: 20px;
-      background: pink;
-      position: absolute;
-      left: 50%;
-      top: 100%;
-      transform: rotate(45deg);
-      animation: float 6s linear infinite;
-      opacity: 0.7;
-    }
-    .heart::before, .heart::after {
-      content: "";
-      width: 20px;
-      height: 20px;
-      background: pink;
-      position: absolute;
-      border-radius: 50%;
-    }
-    .heart::before {
-      top: -10px;
-      left: 0;
-    }
-    .heart::after {
-      left: -10px;
-      top: 0;
-    }
-    @keyframes float {
-      0% {
-        transform: translateY(0) rotate(45deg);
-        opacity: 0.7;
-      }
-      100% {
-        transform: translateY(-120vh) rotate(45deg);
-        opacity: 0;
-      }
-    }
-
-    .content {
-      position: relative;
-      z-index: 10;
-      padding: 20px;
-      text-align: center;
-      color: #e91e63;
-    }
-    h1 {
-      font-size: 2em;
-      margin: 0;
-    }
-    p {
-      margin: 5px 0;
-      font-size: 1.1em;
-    }
-    #clock-box {
-      margin-top: 20px;
-      font-size: 1.2em;
-      color: #444;
-    }
-    #note {
-      margin-top: 5px;
-      color: #d63384;
-      font-size: 1em;
+    #clock {
+      position:absolute; bottom:10%; width:100%;
+      text-align:center; font-size:1rem; color:#333;
+      font-family:'Poppins', sans-serif;
     }
   </style>
 </head>
 <body>
 
-  <div class="content">
-    <h1>Happy Birthday, Hassaneh! 🎉</h1>
-    <p>Hey cutie 🌸</p>
-    <p>May Allah bless you with endless smiles 😇</p>
-    <p>You make the world better, day by day 💛</p>
-    <p>Because it’s been shining since you arrived ✨</p>
-
-    <div id="clock-box">
-      The world got luckier since: 1 July 2005 💖<br>
-      <span id="clock">Loading…</span><br>
-      <span id="note">Because someone amazing was born that day 💝</span>
-    </div>
+  <div id="start">
+    <button id="btnStart">Click here cutie 💖</button>
   </div>
 
-  <audio autoplay loop>
-    <source src="aud.mp3" type="audio/mp3">
-  </audio>
+  <div id="container">
+    <canvas id="bloom"></canvas>
+    <div id="message"></div>
+    <div id="clock"></div>
+  </div>
+
+  <audio id="bgm" src="aud.mp3" loop></audio>
 
   <script>
-    function updateClock() {
-      const start = new Date("2005-07-01T00:00:00").getTime();
-      const now = Date.now();
-      const diff = now - start;
+  const btn = document.getElementById('btnStart'),
+        container = document.getElementById('container'),
+        start = document.getElementById('start'),
+        msgEl = document.getElementById('message'),
+        clockEl = document.getElementById('clock'),
+        bgm = document.getElementById('bgm');
 
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+  const fullMsg = 
+`Happy Birthday, Hassaneh! 🎂✨
+Hey cutie 🌸
 
-      document.getElementById('clock').textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+Since July 1, 2005, this world has been a better place,
+lit brighter by your kindness, your laughter, your soul.
+
+You inspire me with every smile.
+I’m so grateful for every second you’ve shined here.
+Here’s to you, today and always 💝`;
+
+  let idx=0;
+
+  function typeWriter() {
+    if(idx < fullMsg.length) {
+      msgEl.textContent += fullMsg[idx++];
+      scrollToBottom();
+      setTimeout(typeWriter, 40);
+    }
+  }
+
+  function scrollToBottom() {
+    msgEl.scrollTop = msgEl.scrollHeight;
+  }
+
+  function updateClock() {
+    const d0 = new Date('2005-07-01T00:00:00').getTime(),
+          diff = Date.now() - d0,
+          d = Math.floor(diff/86400000),
+          h = Math.floor((diff%86400000)/3600000),
+          m = Math.floor((diff%3600000)/60000),
+          s = Math.floor((diff%60000)/1000);
+    clockEl.textContent = `It's been ${d}d ${h}h ${m}m ${s}s of brighter days 💖`;
+  }
+
+  function startBloom() {
+    const canvas = document.getElementById('bloom'),
+          ctx = canvas.getContext('2d'),
+          w = canvas.width = window.innerWidth,
+          h = canvas.height = window.innerHeight,
+          petals = [];
+
+    function Petal() {
+      this.x = Math.random() * w;
+      this.y = h + Math.random() * 100;
+      this.r = Math.random() * 4 + 2;
+      this.d = Math.random() * 2;
+      this.a = Math.random() * Math.PI * 2;
+      this.speed = Math.random() * 1 + 0.2;
+      this.alpha = 0;
     }
 
-    setInterval(updateClock, 1000);
+    Petal.prototype.update = function() {
+      this.y -= this.speed;
+      this.x += Math.sin(this.d * this.y) * 0.5;
+      this.alpha = Math.sin((h - this.y) / h * Math.PI);
+      if (this.y < -10) this.y = h + 10;
+    };
+
+    function draw() {
+      ctx.clearRect(0,0,w,h);
+      petals.forEach(pet => {
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(233,30,99, ${pet.alpha})`;
+        ctx.arc(pet.x, pet.y, pet.r, 0, 2 * Math.PI);
+        ctx.fill();
+        pet.update();
+      });
+      requestAnimationFrame(draw);
+    }
+
+    for(let i=0; i<120; i++) petals.push(new Petal());
+    draw();
+  }
+
+  btn.addEventListener('click', () => {
+    bgm.play();
+    start.style.display='none';
+    container.style.display='block';
+    startBloom();
+    typeWriter();
     updateClock();
-
-    // HEARTS
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 7000);
-    }
-
-    setInterval(createHeart, 300);
+    setInterval(updateClock, 1000);
+  });
   </script>
 </body>
 </html>
