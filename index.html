@@ -4,106 +4,93 @@
   <meta charset="UTF-8">
   <title>Happy Birthday Hassaneh 🎉</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <link rel="stylesheet" href="./file/default.css">
-  <script src="./file/jquery.min.js"></script>
-  <script src="./file/jscex.min.js"></script>
-  <script src="./file/jscex-parser.js"></script>
-  <script src="./file/jscex-jit.js"></script>
-  <script src="./file/jscex-builderbase.min.js"></script>
-  <script src="./file/jscex-async.min.js"></script>
-  <script src="./file/jscex-async-powerpack.min.js"></script>
-  <script src="./file/functions.js"></script>
-  <script src="./file/love.js"></script>
-
   <style>
     body {
-      margin: 0; padding: 0;
-      background: #ffe6f0;
-      overflow-x: hidden;
-      font-family: 'Segoe UI', sans-serif;
+      margin:0; padding:0;
+      overflow:hidden;
+      font-family:'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #ffe6f0, #f0e6ff);
+      position:relative;
+      height:100vh;
     }
-    #main { position: relative; width: 100vw; height: 100vh; }
-    canvas {
-      width: 100% !important;
-      height: auto !important;
-      display: block;
+    #hearts {position:absolute; width:100%; height:100%; top:0; left:0; pointer-events:none;}
+    .heart {
+      position:absolute;
+      width:20px; height:20px;
+      background:rgba(255, 105, 180, 0.7);
+      transform:rotate(45deg);
+      animation: floatUp linear infinite;
     }
-    #wrap {
-      position: absolute; top: 0; left: 0;
-      width: 100%; height: 100%;
+    .heart::before, .heart::after {
+      content:'';
+      position:absolute;
+      background:inherit;
+      border-radius:50%;
     }
-    #text {
-      position: absolute;
-      top: 5%; left: 5%; right: 5%;
-      color: #e91e63;
-      font-size: 1rem;
-      line-height: 1.4;
-      z-index: 10;
-      text-align: center;
+    .heart::before {top:-10px; left:0; width:20px; height:20px;}
+    .heart::after {left:10px; top:0; width:20px; height:20px;}
+    @keyframes floatUp {
+      to {transform:translateY(-120vh) rotate(45deg); opacity:0;}
     }
-    .say { display: block; margin: 5px 0; }
-    #clock-box {
-      position: absolute;
-      bottom: 10%; width: 100%;
-      text-align: center;
-      font-size: 1rem;
-      color: #333;
-      z-index: 10;
+
+    .content {
+      position:relative;
+      z-index:10;
+      padding:20px;
+      text-align:center;
     }
-    #note {
-      margin-top: 5px;
-      color: #d63384;
-      font-size: 0.9rem;
-    }
+    h1 {font-size:2em; color:#e91e63; margin-bottom:10px;}
+    p {font-size:1.1em; margin:5px 0;}
+    #clock-box {margin-top:20px; font-size:1.2em; color:#333;}
+    #note {margin-top:5px; color:#d63384; font-size:1em;}
   </style>
 </head>
 <body>
-  <div id="main">
-    <audio id="myAudio" autoplay loop>
-      <source src="aud.mp3" type="audio/mp3">
-    </audio>
+  <div id="hearts"></div>
 
-    <div id="wrap">
-      <canvas id="canvas"></canvas>
-
-      <div id="text">
-        <span class="say">Happy Birthday, Hassaneh! 🎉</span>
-        <span class="say">Hey cutie 🌸</span>
-        <span class="say">May Allah bless you with endless smiles 😇</span>
-        <span class="say">You make the world better, day by day 💛</span>
-        <span class="say">You deserve the very best of everything 🦋</span>
-        <span class="say">Stay amazing — always ✨</span>
-      </div>
-
-      <div id="clock-box">
-        <div>The world got luckier since: 1 July 2005 💖</div>
-        <div id="clock">Loading…</div>
-        <div id="note">Because someone amazing was born that day 💝</div>
-      </div>
+  <div class="content">
+    <h1>Happy Birthday, Hassaneh! 🎂✨</h1>
+    <p>Hey cutie 🌸</p>
+    <p>May Allah bless you with endless smiles 😇</p>
+    <p>You make the world better, day by day 💛</p>
+    <p>Because it’s been shining since you arrived ✨</p>
+    <div id="clock-box">
+      The world got luckier since: 1 July 2005 💖<br>
+      <span id="clock">Loading…</span><br>
+      <span id="note">Because someone amazing was born that day 💝</span>
     </div>
   </div>
 
+  <audio autoplay loop>
+    <source src="aud.mp3" type="audio/mp3">
+  </audio>
+
   <script>
+    // Floating hearts
+    function createHeart(){
+      const h = document.createElement('div');
+      h.className='heart';
+      h.style.left = Math.random() * 100 + 'vw';
+      const size = Math.random()*15+15;
+      h.style.width = size+'px'; h.style.height = size+'px';
+      h.style.animationDuration = Math.random()*5+5+'s';
+      document.getElementById('hearts').appendChild(h);
+      setTimeout(()=>h.remove(), 8000);
+    }
+    setInterval(createHeart, 300);
+
+    // Timer
     const start = new Date("2005-07-01T00:00:00").getTime();
     function updateClock(){
       const diff = Date.now() - start;
-      const d = Math.floor(diff / 86400000);
-      const h = Math.floor((diff % 86400000) / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-      document.getElementById("clock").textContent = `${d}d ${h}h ${m}m ${s}s`;
+      const d = Math.floor(diff/86400000);
+      const h = Math.floor((diff%86400000)/3600000);
+      const m = Math.floor((diff%3600000)/60000);
+      const s = Math.floor((diff%60000)/1000);
+      document.getElementById('clock').textContent = `${d}d ${h}h ${m}m ${s}s`;
     }
-    setInterval(updateClock, 1000);
+    setInterval(updateClock,1000);
     updateClock();
-
-    (function(){
-      const canvas = $('#canvas');
-      if (!canvas[0].getContext) return;
-      const w = canvas.parent().width();
-      const h = canvas.parent().height();
-      canvas.attr({width: w, height: h});
-      /* rest of original animation code goes here, unchanged */
-    })();
   </script>
 </body>
 </html>
