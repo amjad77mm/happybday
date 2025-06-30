@@ -4,101 +4,253 @@
     <meta charset="UTF-8">
     <title>Happy Birthday Hassaneh 🎉</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./file/default.css">
+    <script src="./file/jquery.min.js"></script>
+    <script src="./file/jscex.min.js"></script>
+    <script src="./file/jscex-parser.js"></script>
+    <script src="./file/jscex-jit.js"></script>
+    <script src="./file/jscex-builderbase.min.js"></script>
+    <script src="./file/jscex-async.min.js"></script>
+    <script src="./file/jscex-async-powerpack.min.js"></script>
+    <script src="./file/functions.js" charset="utf-8"></script>
+    <script src="./file/love.js" charset="utf-8"></script>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(to bottom right, #ffe6f0, #ffe6cc);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            text-align: center;
+            overflow: hidden;
         }
 
-        .container {
-            padding: 20px;
-            max-width: 600px;
+        #main {
+            position: relative;
+            width: 100%;
+            height: 100vh;
         }
 
-        h1 {
-            font-size: 2em;
+        #text {
+            position: absolute;
+            top: 5%;
+            left: 5%;
+            right: 5%;
+            z-index: 10;
             color: #e91e63;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 1.2rem;
         }
 
-        p {
-            font-size: 1.2em;
-            margin-bottom: 10px;
+        .say {
+            display: block;
+            margin: 10px 0;
         }
 
-        .countdown {
-            font-size: 1.4em;
-            margin-top: 30px;
+        #clock-box {
+            position: absolute;
+            top: 70%;
+            width: 100%;
+            text-align: center;
+            font-size: 1.2rem;
             color: #333;
-            background: #fff0f5;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px #ffd6e0;
+            font-family: 'Segoe UI', sans-serif;
+            z-index: 10;
         }
 
-        .note {
-            font-size: 1.1em;
-            color: #d63384;
+        #note {
             margin-top: 10px;
+            color: #d63384;
         }
 
-        audio {
-            display: none;
+        canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        @media screen and (max-width: 600px) {
+            #text {
+                font-size: 1rem;
+            }
+
+            #clock-box {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Happy Birthday, Hassaneh! 🎂✨</h1>
-        <p>Hey cutie 🌸</p>
-        <p>Today is all about you 💫</p>
-        <p>May Allah bless you with endless smiles 😇</p>
-        <p>You truly deserve all the happiness in the world 💛</p>
-        <p>Thank you for being such a kind soul 🤍</p>
-        <p>I hope this day brings you joy, peace, and good vibes ✨💐</p>
-        <p>— from your always-cheering bestie 😄</p>
+    <div id="main">
+        <audio autoplay loop>
+            <source src="aud.mp3" type="audio/mp3">
+        </audio>
 
-        <div class="countdown" id="countdown">
-            The world got luckier since: 1 July 2005 💖
-            <br>
-            <span id="timer">Loading...</span>
-        </div>
-
-        <div class="note">
-            Because someone amazing was born that day 💝
+        <div id="wrap">
+            <div id="text">
+                <div id="code">
+                    <span class="say">Happy Birthday, Hassaneh! 🎉</span>
+                    <span class="say">Hey cutie 🌸</span>
+                    <span class="say">May Allah bless you with endless smiles 😇</span>
+                    <span class="say">You make the world better, day by day 💛</span>
+                    <span class="say">You deserve the very best of everything 🦋</span>
+                    <span class="say">Stay amazing — always ✨</span>
+                </div>
+            </div>
+            <div id="clock-box">
+                <div>
+                    The world got luckier since: 1 July 2005 💖<br>
+                    <span id="clock">Loading...</span>
+                </div>
+                <div id="note">
+                    Because someone amazing was born that day 💝
+                </div>
+            </div>
+            <canvas id="canvas" width="1100" height="680"></canvas>
         </div>
     </div>
 
-    <audio autoplay loop>
-        <source src="aud.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-
     <script>
-        const targetDate = new Date("2005-07-01T00:00:00").getTime();
-
-        function updateCountdown() {
+        // Timer: count up from July 1, 2005
+        function updateTimer() {
+            const start = new Date("2005-07-01T00:00:00").getTime();
             const now = new Date().getTime();
-            const elapsed = now - targetDate;
+            const diff = now - start;
 
-            const days = Math.floor(elapsed / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-            document.getElementById("timer").innerHTML = 
+            document.getElementById("clock").textContent =
                 `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
         }
 
-        updateCountdown(); // call immediately
-        setInterval(updateCountdown, 1000); // update every second
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // Tree animation
+        (function () {
+            var canvas = $('#canvas');
+            if (!canvas[0].getContext) return false;
+
+            var width = canvas.width();
+            var height = canvas.height();
+            canvas.attr("width", width);
+            canvas.attr("height", height);
+
+            var opts = {
+                seed: {
+                    x: width / 2 - 20,
+                    color: "rgb(190, 26, 37)",
+                    scale: 2
+                },
+                branch: [
+                    [535, 680, 570, 250, 500, 200, 30, 100, [
+                        [540, 500, 455, 417, 340, 400, 13, 100, [
+                            [450, 435, 434, 430, 394, 395, 2, 40]
+                        ]],
+                        [550, 445, 600, 356, 680, 345, 12, 100, [
+                            [578, 400, 648, 409, 661, 426, 3, 80]
+                        ]],
+                        [539, 281, 537, 248, 534, 217, 3, 40],
+                        [546, 397, 413, 247, 328, 244, 9, 80, [
+                            [427, 286, 383, 253, 371, 205, 2, 40],
+                            [498, 345, 435, 315, 395, 330, 4, 60]
+                        ]],
+                        [546, 357, 608, 252, 678, 221, 6, 100, [
+                            [590, 293, 646, 277, 648, 271, 2, 80]
+                        ]]
+                    ]]
+                ],
+                bloom: {
+                    num: 700,
+                    width: 1080,
+                    height: 650,
+                },
+                footer: {
+                    width: 1200,
+                    height: 5,
+                    speed: 10,
+                }
+            };
+
+            var tree = new Tree(canvas[0], width, height, opts);
+            var seed = tree.seed;
+            var foot = tree.footer;
+            var hold = 1;
+
+            canvas.click(function (e) {
+                var offset = canvas.offset(), x, y;
+                x = e.pageX - offset.left;
+                y = e.pageY - offset.top;
+                if (seed.hover(x, y)) {
+                    hold = 0;
+                    canvas.unbind("click");
+                    canvas.unbind("mousemove");
+                    canvas.removeClass('hand');
+                }
+            }).mousemove(function (e) {
+                var offset = canvas.offset(), x, y;
+                x = e.pageX - offset.left;
+                y = e.pageY - offset.top;
+                canvas.toggleClass('hand', seed.hover(x, y));
+            });
+
+            var seedAnimate = eval(Jscex.compile("async", function () {
+                seed.draw();
+                while (hold) {
+                    $await(Jscex.Async.sleep(10));
+                }
+                while (seed.canScale()) {
+                    seed.scale(0.95);
+                    $await(Jscex.Async.sleep(10));
+                }
+                while (seed.canMove()) {
+                    seed.move(0, 2);
+                    foot.draw();
+                    $await(Jscex.Async.sleep(10));
+                }
+            }));
+
+            var growAnimate = eval(Jscex.compile("async", function () {
+                do {
+                    tree.grow();
+                    $await(Jscex.Async.sleep(10));
+                } while (tree.canGrow());
+            }));
+
+            var flowAnimate = eval(Jscex.compile("async", function () {
+                do {
+                    tree.flower(2);
+                    $await(Jscex.Async.sleep(10));
+                } while (tree.canFlower());
+            }));
+
+            var moveAnimate = eval(Jscex.compile("async", function () {
+                tree.snapshot("p1", 240, 0, 610, 680);
+                while (tree.move("p1", 500, 0)) {
+                    foot.draw();
+                    $await(Jscex.Async.sleep(10));
+                }
+                foot.draw();
+                tree.snapshot("p2", 500, 0, 610, 680);
+                canvas.parent().css("background", "url(" + tree.toDataURL('image/png') + ")");
+                canvas.css("background", "#ffe");
+                $await(Jscex.Async.sleep(300));
+                canvas.css("background", "none");
+            }));
+
+            var textAnimate = eval(Jscex.compile("async", function () {
+                $("#code").show().typewriter();
+            }));
+
+            var runAsync = eval(Jscex.compile("async", function () {
+                $await(seedAnimate());
+                $await(growAnimate());
+                $await(flowAnimate());
+                $await(moveAnimate());
+                textAnimate().start();
+            }));
+
+            runAsync().start();
+        })();
     </script>
 </body>
 </html>
