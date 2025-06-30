@@ -1,139 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-<title>Happy Birthday, Hassaneh 💖</title>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden;font-family:'Poppins',sans-serif}
-#start{position:relative;display:flex;align-items:center;justify-content:center;height:100vh;
-  background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb,#a18cd1);
-  background-size:400% 400%;animation:gradientBG 20s ease infinite}
-@keyframes gradientBG{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-#particles{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:1}
-.particle{position:absolute;background:rgba(255,255,255,0.6);border-radius:50%;width:6px;height:6px;animation:rise 8s linear infinite}
-@keyframes rise{0%{transform:translateY(100vh) scale(0.3)}100%{transform:translateY(-10vh) scale(1);opacity:0}}
-#btnStart{position:relative;z-index:2;font-size:2.5rem;background:#e91e63;color:#fff;border:none;
- border-radius:50px;padding:16px 32px;cursor:pointer;
- box-shadow:0 6px 15px rgba(0,0,0,0.3);
- animation:pulse 2s infinite}
-@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Happy Birthday, Hassaneh 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Lora', serif;
+      background-color: #fff;
+    }
 
-#container{display:none;position:relative;width:100%;height:100vh;overflow:hidden}
-canvas{display:block;width:100%;height:100%}
-#overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);pointer-events:none}
-#message{position:absolute;top:10%;width:90%;left:50%;transform:translateX(-50%);
- color:white;font-size:1.4rem;font-family:'Great Vibes',cursive;
- text-align:center;white-space:pre-line;text-shadow:2px 2px 8px rgba(0,0,0,0.5)}
-#clock{position:absolute;top:40%;width:100%;text-align:center;
- color:white;font-family:'Great Vibes',cursive;font-size:2rem;
- background:rgba(0,0,0,0.4);padding:8px 16px;border-radius:30px;
- text-shadow:1px 1px 4px #ff9a9e}
+    /* Start Page */
+    #start {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+      background-size: 400% 400%;
+      animation: gradientBG 20s ease infinite;
+      position: relative;
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50% }
+      50% { background-position: 100% 50% }
+      100% { background-position: 0% 50% }
+    }
 
-</style>
+    #particles {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      width: 6px;
+      height: 6px;
+      animation: rise 8s linear infinite;
+    }
+
+    @keyframes rise {
+      0% { transform: translateY(100vh) scale(0.3); }
+      100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+    }
+
+    #btnStart {
+      z-index: 2;
+      font-size: 2.5rem;
+      background: #e91e63;
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 16px 32px;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+      animation: pulse 2s infinite;
+      font-family: 'Lora', serif;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    /* Main Container */
+    #container {
+      display: none;
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    #overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      pointer-events: none;
+    }
+
+    #message {
+      position: absolute;
+      top: 10%;
+      width: 90%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 1.3rem;
+      text-align: center;
+      white-space: pre-line;
+      font-family: 'Lora', serif;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+    }
+
+    #clock {
+      position: absolute;
+      top: 62%;
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 10px 20px;
+      border-radius: 30px;
+      text-shadow: 0 0 8px #ff9a9e;
+    }
+  </style>
 </head>
 <body>
-<div id="start">
-  <div id="particles"></div>
-  <button id="btnStart">Click here cutie 💖</button>
-</div>
 
-<div id="container">
-  <canvas id="bloom"></canvas>
-  <div id="overlay"></div>
-  <div id="message"></div>
-  <div id="clock"></div>
-</div>
+  <div id="start">
+    <div id="particles"></div>
+    <button id="btnStart">Click here cutie 💖</button>
+  </div>
 
-<audio id="bgm" src="aud.mp3" loop></audio>
+  <div id="container">
+    <canvas id="bloom"></canvas>
+    <div id="overlay"></div>
+    <div id="message"></div>
+    <div id="clock"></div>
+  </div>
 
-<script>
-// create floating particles on start screen
-function spawnParticle(){
-  const p = document.createElement('div'),
-        sz = Math.random()*4+4;
-  p.className='particle';
-  p.style.width=sz+'px';p.style.height=sz+'px';
-  p.style.left=Math.random()*100+'vw';
-  p.style.animationDuration=(Math.random()*4+6)+'s';
-  document.getElementById('particles').appendChild(p);
-  setTimeout(()=>p.remove(),10000);
-}
-setInterval(spawnParticle,200);
+  <audio id="bgm" src="aud.mp3" loop></audio>
 
-// main logic
-const btnStart = document.getElementById('btnStart'),
-      start = document.getElementById('start'),
-      container = document.getElementById('container'),
-      msg = document.getElementById('message'),
-      clock = document.getElementById('clock'),
-      bgm = document.getElementById('bgm');
+  <script>
+    function spawnParticle() {
+      const p = document.createElement('div');
+      const sz = Math.random() * 4 + 4;
+      p.className = 'particle';
+      p.style.width = sz + 'px';
+      p.style.height = sz + 'px';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.animationDuration = (Math.random() * 4 + 6) + 's';
+      document.getElementById('particles').appendChild(p);
+      setTimeout(() => p.remove(), 10000);
+    }
 
-const fullMsg =
+    setInterval(spawnParticle, 200);
+
+    const btnStart = document.getElementById('btnStart');
+    const start = document.getElementById('start');
+    const container = document.getElementById('container');
+    const msg = document.getElementById('message');
+    const clock = document.getElementById('clock');
+    const bgm = document.getElementById('bgm');
+
+    const fullMsg = 
 `Happy Birthday, Hassaneh! 🎂✨
 
 Since 1 July 2005, every day has been brighter  
 thanks to your smile, your heart, your soul.
 
-You inspire with your kindness, enrich with your love.  
-I’m grateful for each moment you bring.
+You inspire with your kindness, enrich with your presence.  
+I’m grateful for every moment you bring.
 
 Here’s to you—today, tomorrow, and always. 💝`;
 
-let idx=0;
-function typeWriter(){
-  if(idx<fullMsg.length){msg.textContent+=fullMsg[idx++];setTimeout(typeWriter,40);}
-}
+    let idx = 0;
+    function typeWriter() {
+      if (idx < fullMsg.length) {
+        msg.textContent += fullMsg[idx++];
+        setTimeout(typeWriter, 40);
+      }
+    }
 
-// timer
-function updateClock(){
-  const startT=new Date('2005-07-01T00:00:00').getTime(),
-        diff=Date.now()-startT,
-        d=Math.floor(diff/86400000),
-        h=Math.floor((diff%86400000)/3600000),
-        m=Math.floor((diff%3600000)/60000),
-        s=Math.floor((diff%60000)/1000);
-  clock.textContent=`It's been ${d}d ${h}h ${m}m ${s}s of brighter days 💖`;
-}
+    function updateClock() {
+      const startT = new Date('2005-07-01T00:00:00').getTime();
+      const diff = Date.now() - startT;
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      clock.textContent = `It's been ${d}d ${h}h ${m}m ${s}s of brighter days 💖`;
+    }
 
-// bloom animation
-function startBloom(){
-  const canvas = document.getElementById('bloom'),
-        ctx = canvas.getContext('2d'),
-        w=canvas.width=window.innerWidth,
-        h=canvas.height=window.innerHeight,
-        petals=[];
-  function P(){this.x=Math.random()*w;this.y=h+Math.random()*100;this.r=Math.random()*4+2;this.d=Math.random()*2;
-                 this.speed=Math.random()*1+.2;this.alpha=0;}
-  P.prototype.update=function(){
-    this.y-=this.speed;
-    this.x+=Math.sin(this.d*this.y)*0.5;
-    this.alpha=Math.sin((h-this.y)/h*Math.PI);
-    if(this.y<-10)this.y=h+10;
-  };
-  function draw(){
-    ctx.clearRect(0,0,w,h);
-    petals.forEach(p=>{ctx.beginPath();
-      ctx.fillStyle=`rgba(233,30,99,${p.alpha})`;
-      ctx.arc(p.x,p.y,p.r,0,2*Math.PI);ctx.fill();p.update();});
-    requestAnimationFrame(draw);
-  }
-  for(let i=0;i<150;i++)petals.push(new P());
-  draw();
-}
+    function startBloom() {
+      const canvas = document.getElementById('bloom');
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width = window.innerWidth;
+      const h = canvas.height = window.innerHeight;
+      const petals = [];
 
-// button action
-btnStart.addEventListener('click',()=>{
-  bgm.play();
-  start.style.display='none';
-  container.style.display='block';
-  startBloom();
-  typeWriter();
-  updateClock();
-  setInterval(updateClock,1000);
-});
-</script>
+      function P() {
+        this.x = Math.random() * w;
+        this.y = h + Math.random() * 100;
+        this.r = Math.random() * 4 + 2;
+        this.d = Math.random() * 2;
+        this.speed = Math.random() * 1 + 0.2;
+        this.alpha = 0;
+      }
+
+      P.prototype.update = function () {
+        this.y -= this.speed;
+        this.x += Math.sin(this.d * this.y) * 0.5;
+        this.alpha = Math.sin((h - this.y) / h * Math.PI);
+        if (this.y < -10) this.y = h + 10;
+      };
+
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        petals.forEach(p => {
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(233,30,99,${p.alpha})`;
+          ctx.arc(p.x, p.y, p.r, 0, 2 * Math.PI);
+          ctx.fill();
+          p.update();
+        });
+        requestAnimationFrame(draw);
+      }
+
+      for (let i = 0; i < 150; i++) petals.push(new P());
+      draw();
+    }
+
+    btnStart.addEventListener('click', () => {
+      bgm.play();
+      start.style.display = 'none';
+      container.style.display = 'block';
+      startBloom();
+      typeWriter();
+      updateClock();
+      setInterval(updateClock, 1000);
+    });
+  </script>
 </body>
 </html>
